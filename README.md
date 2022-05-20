@@ -15,6 +15,40 @@ list(range(1, 6)) # [1,2,3,4,5]
 * Reference: https://code.visualstudio.com/docs/datascience/jupyter-notebooks
 * Command Palette (Ctrl+Shift+P) input Jupyter: `Create New Jupyter Notebook`
 
+### 刪除list裡的多個元素
+```python
+del listItem[a:b] # 刪除listItem中index a到b-1的元素
+```
+
+### 取得修改檔案時間、建立檔案時間
+```python
+import datetime
+import os
+
+# Path to the file
+path = r"E:\demos\files_demos\sample.txt"
+
+# file modification timestamp of a file
+m_time = os.path.getmtime(path)
+# convert timestamp into DateTime object
+dt_m = datetime.datetime.fromtimestamp(m_time)
+print('Modified on:', dt_m)
+
+# file creation timestamp in float
+c_time = os.path.getctime(path)
+# convert creation timestamp into DateTime object
+dt_c = datetime.datetime.fromtimestamp(c_time)
+print('Created on:', dt_c)
+```
+
+### 取代字串內容
+```python
+txt = "I like bananas"
+
+x = txt.replace("bananas", "apples")
+
+print(x) # I like apples
+```
 
 ## MultiThread
 * Reference: https://blog.gtwang.org/programming/python-threading-multithreaded-programming-tutorial/
