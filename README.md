@@ -113,7 +113,7 @@ import pandas as pd
 df = pd.read_csv(csv_file_name, names=['name_of_column'])
 ```
 ### 刪除DataFrame中特定資料的方法
-```
+```python
 matchFileTotalSize = df["File Total Size (KB)"].isin(['--'])
 df[matchFileTotalSize] = np.nan
 matchFileDLSize = df["File DL Size (KB)"].isin(['--'])
