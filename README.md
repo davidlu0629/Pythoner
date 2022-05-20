@@ -51,7 +51,10 @@ print(x) # I like apples
 ```
 
 ## MultiThread
-* Reference: https://blog.gtwang.org/programming/python-threading-multithreaded-programming-tutorial/
+* Reference: 
+  * https://blog.gtwang.org/programming/python-threading-multithreaded-programming-tutorial/
+  * https://www.maxlist.xyz/2020/03/15/python-threading/
+  * https://www.wongwonggoods.com/python/python-threading/
 
 ## Database相關
 ### MySQL
@@ -109,6 +112,9 @@ except Exception as ex:
 ```
 
 ## DateTime相關
+### module
+pytz  
+
 ### 調整時區設定
 ```
 可以用"Etc/GMT-0"的方式調整時區
