@@ -15,6 +15,78 @@ list(range(1, 6)) # [1,2,3,4,5]
 * Reference: https://code.visualstudio.com/docs/datascience/jupyter-notebooks
 * Command Palette (Ctrl+Shift+P) input Jupyter: `Create New Jupyter Notebook`
 
+### 紀錄log
+#### module
+logging
+#### code
+```python
+import logging
+import time
+from datetime import datetime, timedelta
+import os
+
+####### function ####################################################
+def handle_exception(exc_type, exc_value, exc_traceback):
+    logger.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+    
+def GetLogNum(logFolder, logtime):
+    #files = glob.glob(logFolder+time.strftime("%Y-%m-%d_*.log"))
+    maxnum = 0
+    #folderNameinLOG = os.listdir(logFolder)
+    dayFolderName = time.strftime("%Y-%m-%d", logtime)
+    if os.path.isdir(logFolder+dayFolderName):
+        files = glob.glob(logFolder+dayFolderName)
+
+        for f in files:
+            fullpath, fname = os.path.split(f)
+            fsplitdot = fname.split('.')[0]
+            fsplitdash = fsplitdot.split('_')
+            if fsplitdash[0] == dayFolderName:
+                try:
+                    if int(fsplitdash[1]) > maxnum:
+                        maxnum = int(fsplitdash[1])
+
+                except:
+                    print('Create log path: {}'.format(f))
+
+    return maxnum
+####### function ####################################################
+
+####### log setting #################################################
+# log format setting
+if not os.path.isdir('LOG'):
+    os.mkdir('LOG')
+logFolder = "LOG/"
+# Log format
+FORMAT = '%(asctime)s: %(message)s' # asctime: create time, message: 後面的logging.info中的內容
+
+sys.excepthook = handle_exception
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(stream=sys.stdout)
+logger.addHandler(handler)
+
+for handler in logging.root.handlers[:]:
+    logging.root.removeHandler(handler)
+    handler.close()
+
+logtime = time.localtime()
+lognum = []
+lognum.append(GetLogNum(logFolder, logtime)+1)
+dayLogFolderName = time.strftime('%Y-%m-%d', logtime)
+if not os.path.isdir(logFolder+dayLogFolderName):
+    os.mkdir(logFolder+dayLogFolderName)
+lastlogfile = []
+lastlogfile.append(logFolder+dayLogFolderName+'/' +
+                   dayLogFolderName+time.strftime("-%H%M%S.log", logtime))
+logging.basicConfig(level=logging.INFO,
+                    filename=lastlogfile[0], filemode='a', format=FORMAT)
+####### log setting #################################################
+
+####### logging #####################################################
+logging.info("folder: {}, first replay file, get command = False".format(listReplayFolder[indReplayFolder]))
+####### logging #####################################################
+```
+
 ### 刪除list裡的多個元素
 ```python
 del listItem[a:b] # 刪除listItem中index a到b-1的元素
