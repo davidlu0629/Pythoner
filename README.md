@@ -236,3 +236,6 @@ matchStatus = df["Status"].isin(['RUNNING'])
 df[~matchStatus] = np.nan      
 dfutr = df.dropna()
 ```
+
+## memory
+* python有記憶體問題，process取用記憶體使用後，不使用並不會將記憶體返還給系統，而是留著等process建立其他物件時進行分配，如果不希望記憶體使用這麼大，可使用multithread的方式，用新的thread來處理需要使用大量記憶體的部分，在處理完後thread結束會將使用的大量記憶體返還給系統
