@@ -239,3 +239,47 @@ dfutr = df.dropna()
 
 ## memory
 * python有記憶體問題，process取用記憶體使用後，不使用並不會將記憶體返還給系統，而是留著等process建立其他物件時進行分配，如果不希望記憶體使用這麼大，可使用multithread的方式，用新的thread來處理需要使用大量記憶體的部分，在處理完後thread結束會將使用的大量記憶體返還給系統
+
+## console程式，關閉quick edit，或console模式調整
+```python
+import msvcrt
+import ctypes
+
+def disable_quickedit():
+    '''
+    Disable quickedit mode on Windows terminal. quickedit prevents script to
+    run without user pressing keys..'''
+    if not os.name == 'posix':
+        try:
+
+            kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+            device = r'\\.\CONIN$'
+            with open(device, 'r') as con:
+                hCon = msvcrt.get_osfhandle(con.fileno())
+                #kernel32.SetConsoleMode(hCon, 0x0080)
+                kernel32.SetConsoleMode(hCon, 0x0081)
+
+        except Exception as e:
+            print('Cannot disable QuickEdit mode! ' + str(e))
+            logging.info('Cannot disable QuickEdit mode! ' + str(e))
+            print('.. As a consequence the script might be automatically\
+            paused on Windows terminal')
+            logging.info('.. As a consequence the script might be automatically\
+            paused on Windows terminal')
+```
+## console程式，取消console視窗上的選項
+* 右上角關閉的x按鈕
+```python
+import win32console
+import win32gui
+import win32con
+
+# disable close button
+hwnd = win32console.GetConsoleWindow()
+if hwnd:
+    hMenu = win32gui.GetSystemMenu(hwnd, 0)
+    if hMenu:
+        logging.info('Disable close icon on right-top of the console')
+        win32gui.EnableMenuItem(hMenu, win32con.SC_CLOSE,
+                                win32con.MF_DISABLED)
+```
